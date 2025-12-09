@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import LeadForm from "./components/leadform";
+import LeadTable from "./components/leadTable";
+import FilterButtons from "./components/filterButton";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [leads, setLeads] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+
+  const handleResults = (data) => {
+    setLeads(data);
+    setFiltered(data); // show all by default
+  };
+
+  const handleFilter = (filter) => {
+    if (filter === "all") {
+      setFiltered(leads);
+    } else {
+      setFiltered(leads.filter((lead) => lead.status === filter));
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="max-w-3xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4 text-center">
+        Smart Lead Automation
+      </h1>
+
+      <LeadForm onResult={handleResults} />
+
+      <FilterButtons onFilter={handleFilter} />
+
+      <LeadTable leads={filtered} />
+    </div>
+  );
 }
 
-export default App
+export default App;

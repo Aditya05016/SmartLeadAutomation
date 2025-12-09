@@ -1,10 +1,16 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const connectDb = require("./config/database.js");
 require("dotenv").config();
 
 connectDb();
+
+// middlewares
+app.use(cors());          // << added
 app.use(express.json());
+
+// routes
 app.use("/api", require("./routes/leadRoutes"));
 
 // start cron

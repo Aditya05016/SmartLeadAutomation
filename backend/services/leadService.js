@@ -20,7 +20,7 @@ exports.processNames = async (namesString) => {
     const country = data.country_id;
 
     // rule
-    const status = probability > 0.6 ? "Verified" : "To Check";
+    const status = probability > 0.1 ? "Verified" : "To Check";
 
     // save in DB
     const lead = await Lead.create({
