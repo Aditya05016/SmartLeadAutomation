@@ -1,26 +1,27 @@
 const axios = require("axios");
-const Lead = require("../models/lead")
+const Lead = require("../models/lead");
 
 exports.processNames = async (namesString) => {
-
-  // convert input "Aditya, Ravi" → ["Aditya","Ravi"]
+  // convert input string to array
   const namesArray = namesString.split(",").map(name => name.trim());
 
   const results = [];
 
   for (const name of namesArray) {
-
-    // call API and get result
+    // call API
     const response = await axios.get(`https://api.nationalize.io?name=${name}`);
 
-    // pick first country data
-    const data = response.data.country[0];
+    // safe handling in case API returns no country
+    const data = response.data.country?.[0] || {
+      country_id: "NA",
+      probability: 0
+    };
 
     const probability = data.probability;
     const country = data.country_id;
 
-    // rule
-    const status = probability > 0.1 ? "Verified" : "To Check";
+    // business rule
+    const status = probability > 0.6 ? "Verified" : "To Check";
 
     // save in DB
     const lead = await Lead.create({
@@ -28,7 +29,7 @@ exports.processNames = async (namesString) => {
       country,
       probability,
       status,
-      synced: false,
+      synced: false
     });
 
     results.push(lead);
@@ -36,3 +37,4 @@ exports.processNames = async (namesString) => {
 
   return results;
 };
+
