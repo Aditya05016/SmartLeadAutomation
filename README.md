@@ -71,6 +71,10 @@ Backend: https://smartleadautomation.onrender.com
 ### Frontend UI
 ![UI Screenshot](./screenshots/Screenshot_UI.png)
 
+### Dashboard Table View
+![UI Table](./screenshots/UI_Table.png)
+
+
 ### MongoDB Collection
 ![DB Screenshot](./screenshots/Backend_collection.png)
 
