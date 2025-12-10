@@ -9,9 +9,10 @@ const LeadForm = ({ onResult }) => {
 
     if (!names) return;
 
-    const response = await axios.post("http://localhost:5000/api/leads", {
-      names,
-    });
+    const response = await axios.post("https://smartleadautomation.onrender.com/api/leads", {
+  names,
+});
+
 
     onResult(response.data.data);
     setNames("");
